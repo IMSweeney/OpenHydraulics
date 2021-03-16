@@ -337,7 +337,7 @@ model MechanicsBody_noFriction
     Placement(visible = true, transformation(origin = {162, -116}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Forces.WorldForce force annotation(
     Placement(visible = true, transformation(origin = {125, -116}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const[3](k = {0, 0, 0})  annotation(
+  Modelica.Blocks.Sources.Constant const[3](k = {500, 0, 0})  annotation(
     Placement(visible = true, transformation(origin = {88, -116}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Sensors.RelativePosition relativePosition1 annotation(
     Placement(visible = true, transformation(origin = {230, -141}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
