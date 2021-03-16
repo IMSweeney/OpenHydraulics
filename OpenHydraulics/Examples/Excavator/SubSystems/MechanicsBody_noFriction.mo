@@ -106,14 +106,9 @@ model MechanicsBody_noFriction
            == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocityAcceleration) then true else false, start=boom_w_start))
     annotation (Placement(transformation(extent={{-133,12},{-113,32}})));
   Modelica.Mechanics.MultiBody.Joints.Revolute armRevolute(
-    a(start=arm_a_start, fixed=if (
-          arm_initType == Modelica.Mechanics.MultiBody.Types.Init.SteadyState or arm_initType == Modelica.Mechanics.MultiBody.Types.Init.VelocityAcceleration or arm_initType ==
-          Modelica.Mechanics.MultiBody.Types.Init.PositionVelocityAcceleration) then true else false),
-    phi(fixed=if (arm_initType == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocity or arm_initType == Modelica.Mechanics.MultiBody.Types.Init.Position or
-          arm_initType == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocityAcceleration) then true else false, start=arm_phi_start),
-    w(fixed=if (arm_initType == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocity or arm_initType == Modelica.Mechanics.MultiBody.Types.Init.SteadyState or
-          arm_initType == Modelica.Mechanics.MultiBody.Types.Init.Velocity or arm_initType == Modelica.Mechanics.MultiBody.Types.Init.VelocityAcceleration or arm_initType ==
-          Modelica.Mechanics.MultiBody.Types.Init.PositionVelocityAcceleration) then true else false, start=arm_w_start))
+    a( fixed= false,start=arm_a_start),
+    phi(fixed= false, start=arm_phi_start),
+    w(fixed= false, start=arm_w_start))
     annotation (Placement(transformation(extent={{3,12},{23,32}})));
   Modelica.Mechanics.MultiBody.Joints.Revolute bucketRevolute(
     a( fixed= false,start=bucket_a_start),
@@ -342,17 +337,13 @@ model MechanicsBody_noFriction
     Placement(visible = true, transformation(origin = {162, -116}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Forces.WorldForce force annotation(
     Placement(visible = true, transformation(origin = {125, -116}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const[3](k = {500, 0, 0})  annotation(
+  Modelica.Blocks.Sources.Constant const[3](k = {0, 0, 0})  annotation(
     Placement(visible = true, transformation(origin = {88, -116}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Sensors.RelativePosition relativePosition1 annotation(
     Placement(visible = true, transformation(origin = {230, -141}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Blocks.Interfaces.RealOutput VerticalPos annotation(
-    Placement(visible = true, transformation(origin = {295, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {268, -87}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput HorizontalPos annotation(
-    Placement(visible = true, transformation(origin = {295, -141}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {268, -87}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Sensors.RelativePosition relativePosition2 annotation(
     Placement(visible = true, transformation(origin = {230, -177}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Blocks.Interfaces.RealOutput HorizontalPosTip annotation(
+  Modelica.Blocks.Interfaces.RealOutput horizontalPosTip annotation(
     Placement(visible = true, transformation(origin = {295, -177}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {268, -87}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Routing.RealPassThrough realPassThrough annotation(
     Placement(visible = true, transformation(origin = {265, -177}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -360,6 +351,10 @@ model MechanicsBody_noFriction
     Placement(visible = true, transformation(origin = {265, -141}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Routing.RealPassThrough realPassThrough2 annotation(
     Placement(visible = true, transformation(origin = {265, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput horizontalPos annotation(
+    Placement(visible = true, transformation(origin = {294, -141}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {293, -143}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput verticalPos annotation(
+    Placement(visible = true, transformation(origin = {291, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {291, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(swingRevolute.frame_a, base.frame_b) annotation(
     Line(points = {{-110, -110}, {-110, -118}}, color = {0, 0, 0}, thickness = 0.5));
@@ -459,16 +454,16 @@ equation
     Line(points = {{230, -131}, {172, -131}, {172, -116}}));
   connect(relativePosition2.r_rel[1], realPassThrough.u) annotation(
     Line(points = {{241, -177}, {253, -177}}, color = {0, 0, 127}));
-  connect(realPassThrough.y, HorizontalPosTip) annotation(
+  connect(realPassThrough.y, horizontalPosTip) annotation(
     Line(points = {{276, -177}, {295, -177}}, color = {0, 0, 127}));
   connect(relativePosition1.r_rel[1], realPassThrough1.u) annotation(
     Line(points = {{241, -141}, {253, -141}}, color = {0, 0, 127}));
-  connect(realPassThrough1.y, HorizontalPos) annotation(
-    Line(points = {{276, -141}, {295, -141}}, color = {0, 0, 127}));
-  connect(realPassThrough2.y, VerticalPos) annotation(
-    Line(points = {{276, -100}, {295, -100}}, color = {0, 0, 127}));
   connect(relativePosition1.r_rel[2], realPassThrough2.u) annotation(
     Line(points = {{241, -141}, {241, -100}, {253, -100}}, color = {0, 0, 127}));
+  connect(realPassThrough1.y, horizontalPos) annotation(
+    Line(points = {{276, -141}, {294, -141}}, color = {0, 0, 127}));
+  connect(realPassThrough2.y, verticalPos) annotation(
+    Line(points = {{276, -100}, {291, -100}}, color = {0, 0, 127}));
   annotation(
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-200, -200}, {250, 200}}, grid = {1, 1}), graphics = {Text(origin = {-29, 26}, lineColor = {0, 0, 255}, fillColor = {215, 215, 215}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{50, -90}, {205, -125}}, textString = "Mechanical model of complete excavator"), Rectangle(origin = {0.116894, 0.907312},lineColor = {0, 0, 255}, extent = {{-199.906, 199.482}, {249.883, -200.907}})}),
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-200, -200}, {250, 200}}, grid = {1, 1}), graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-200, 140}, {250, -140}}), Bitmap(extent = {{-197, 219}, {248, -223}}, fileName = "modelica://OpenHydraulics/Resources/Images/excavator.png"), Line(points = {{-190, 37}, {-14, -1}}, color = {0, 127, 0}, thickness = 0.5), Line(points = {{-15, 129}, {23, 92}}, color = {0, 127, 0}, thickness = 0.5), Line(points = {{155, 129}, {126, 88}}, color = {0, 127, 0}, thickness = 0.5), Line(points = {{-30, -10}, {-4, -131}}, color = {0, 127, 0}, thickness = 0.5), Ellipse(lineColor = {0, 127, 0}, fillColor = {0, 127, 0}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{-18, 4}, {-8, -6}}, endAngle = 360), Ellipse(lineColor = {0, 127, 0}, fillColor = {0, 127, 0}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{18, 97}, {28, 87}}, endAngle = 360), Ellipse(lineColor = {0, 127, 0}, fillColor = {0, 127, 0}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{122, 94}, {132, 84}}, endAngle = 360), Ellipse(lineColor = {0, 127, 0}, fillColor = {0, 127, 0}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{-36, -3}, {-26, -13}}, endAngle = 360), Ellipse(lineColor = {95, 95, 95}, fillColor = {95, 95, 95}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{-55, -57}, {-45, -67}}, endAngle = 360), Line(points = {{-200, -122}, {-50, -60}}, color = {95, 95, 95}, thickness = 0.5), Line(points = {{-72, -137}, {-72, -127}}, color = {95, 95, 95}, thickness = 0.5)}));

@@ -33,7 +33,14 @@ equation
     Line(points = {{-41.2, 22}, {-42, 22}, {-42, 58}, {84, 58}, {84, 34}}, color = {0, 127, 0}));
   connect(hydraulics.SwingFlange, mechanicsBody.swingFlange) annotation(
     Line(points = {{-9.2, 22}, {-9.2, 30}, {4, 30}, {4, -18}, {12, -18}}));
+  connect(mechanicsBody.horizontalPos, digCycleSeq.horizontalPos) annotation(
+    Line(points = {{108, -22}, {118, -22}, {118, -94}, {-136, -94}, {-136, 14}, {-98, 14}}, color = {0, 0, 127}));
+  connect(mechanicsBody.verticalPos, digCycleSeq.verticalPos) annotation(
+    Line(points = {{108, -14}, {128, -14}, {128, -86}, {-128, -86}, {-128, -6}, {-96, -6}}, color = {0, 0, 127}));
+  connect(mechanicsBody.horizontalPosTip, digCycleSeq.horizontalPosTip) annotation(
+    Line(points = {{104, -10}, {138, -10}, {138, -76}, {-120, -76}, {-120, 4}, {-98, 4}}, color = {0, 0, 127}));
   annotation(
     Diagram(graphics),
-    experiment(StopTime = 20, Tolerance = 1e-008));
+    experiment(StopTime = 20, Tolerance = 1e-008),
+  __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
 end DigCycleSimulation;
