@@ -2,7 +2,7 @@ within OpenHydraulics.Examples.Excavator.SubSystems;
 model MechanicsBody_noFriction
   import MB = Modelica.Mechanics.MultiBody;
 
-  // the swing parameters
+// the swing parameters
   parameter Modelica.Mechanics.MultiBody.Types.Init swing_initType=
       Modelica.Mechanics.MultiBody.Types.Init.Free
     "Type of initialization (defines usage of start values below)"
@@ -20,7 +20,7 @@ model MechanicsBody_noFriction
     "Initial value of relative angular acceleration a = der(w)"
     annotation (Evaluate=false, Dialog(group="Swing",tab="Initialization"));
 
-  // the boom parameters
+// the boom parameters
   parameter Modelica.Mechanics.MultiBody.Types.Init boom_initType=
       Modelica.Mechanics.MultiBody.Types.Init.Free
     "Type of initialization (defines usage of start values below)"
@@ -38,7 +38,7 @@ model MechanicsBody_noFriction
     "Initial value of relative angular acceleration a = der(w)"
     annotation (Evaluate=false, Dialog(group="Boom",tab="Initialization"));
 
-  // the arm parameters
+// the arm parameters
   parameter Modelica.Mechanics.MultiBody.Types.Init arm_initType=
       Modelica.Mechanics.MultiBody.Types.Init.Free
     "Type of initialization (defines usage of start values below)"
@@ -55,7 +55,7 @@ model MechanicsBody_noFriction
     "Initial value of relative angular acceleration a = der(w)"
     annotation (Evaluate=false, Dialog(group="Arm",tab="Initialization"));
 
-  // the bucket parameters
+// the bucket parameters
   parameter Modelica.Mechanics.MultiBody.Types.Init bucket_initType=
       Modelica.Mechanics.MultiBody.Types.Init.Free
     "Type of initialization (defines usage of start values below)"
@@ -75,7 +75,7 @@ model MechanicsBody_noFriction
 
   outer MB.World world;
 
-  // the joints
+// the joints
   Modelica.Mechanics.MultiBody.Joints.Revolute swingRevolute(
     n={0,1,0},
     useAxisFlange=true,
@@ -106,25 +106,15 @@ model MechanicsBody_noFriction
            == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocityAcceleration) then true else false, start=boom_w_start))
     annotation (Placement(transformation(extent={{-133,12},{-113,32}})));
   Modelica.Mechanics.MultiBody.Joints.Revolute armRevolute(
-    a(start=arm_a_start, fixed=if (
-          arm_initType == Modelica.Mechanics.MultiBody.Types.Init.SteadyState or arm_initType == Modelica.Mechanics.MultiBody.Types.Init.VelocityAcceleration or arm_initType ==
-          Modelica.Mechanics.MultiBody.Types.Init.PositionVelocityAcceleration) then true else false),
-    phi(fixed=if (arm_initType == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocity or arm_initType == Modelica.Mechanics.MultiBody.Types.Init.Position or
-          arm_initType == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocityAcceleration) then true else false, start=arm_phi_start),
-    w(fixed=if (arm_initType == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocity or arm_initType == Modelica.Mechanics.MultiBody.Types.Init.SteadyState or
-          arm_initType == Modelica.Mechanics.MultiBody.Types.Init.Velocity or arm_initType == Modelica.Mechanics.MultiBody.Types.Init.VelocityAcceleration or arm_initType ==
-          Modelica.Mechanics.MultiBody.Types.Init.PositionVelocityAcceleration) then true else false, start=arm_w_start))
+    a( fixed= false,start=arm_a_start),
+    phi(fixed= false, start=arm_phi_start),
+    w(fixed= false, start=arm_w_start))
     annotation (Placement(transformation(extent={{3,12},{23,32}})));
   Modelica.Mechanics.MultiBody.Joints.Revolute bucketRevolute(
-    a(start=bucket_a_start, fixed=if (
-          bucket_initType == Modelica.Mechanics.MultiBody.Types.Init.SteadyState or bucket_initType == Modelica.Mechanics.MultiBody.Types.Init.VelocityAcceleration or
-          bucket_initType == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocityAcceleration) then true else false),
-    phi(fixed=if (bucket_initType == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocity or bucket_initType == Modelica.Mechanics.MultiBody.Types.Init.Position or
-          bucket_initType == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocityAcceleration) then true else false, start=
+    a( fixed= false,start=bucket_a_start),
+    phi(fixed= false, start=
           bucket_phi_start),
-    w(fixed=if (bucket_initType == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocity or bucket_initType == Modelica.Mechanics.MultiBody.Types.Init.SteadyState or
-          bucket_initType == Modelica.Mechanics.MultiBody.Types.Init.Velocity or bucket_initType == Modelica.Mechanics.MultiBody.Types.Init.VelocityAcceleration or
-          bucket_initType == Modelica.Mechanics.MultiBody.Types.Init.PositionVelocityAcceleration) then true else false, start=
+    w(fixed= false, start=
           bucket_w_start))
     annotation (Placement(transformation(extent={{159,12},{179,32}})));
   MB.Joints.Assemblies.JointRRR jointRRR1(
@@ -136,8 +126,7 @@ model MechanicsBody_noFriction
     phi_offset=-45) annotation (Placement(transformation(extent={{170,-71},
             {199,-40}})));
 
-  // joint friction
-
+// joint friction
   // the outside interface
   Modelica.Mechanics.Rotational.Interfaces.Flange_a swingFlange
     "input connector for rotation of swing function revolute joint"
@@ -168,7 +157,7 @@ model MechanicsBody_noFriction
         extent={{-16,-16},{16,16}},
         rotation=90)));
 
-  // the actuators
+// the actuators
   MB.Forces.LineForceWithMass cylBoomRight(lineShapeWidth=0.095)
     "hydraulic force in cylinder 1 (between carriage and boom)"
     annotation (Placement(transformation(
@@ -192,7 +181,7 @@ model MechanicsBody_noFriction
         extent={{15.5,15},{-15.5,-15}},
         rotation=180)));
 
-  // the linkages
+// the linkages
   MB.Parts.FixedTranslation base(
     lengthDirection={1,0,0},
     r={0,1.70,0},
@@ -344,256 +333,138 @@ model MechanicsBody_noFriction
         origin={230,54},
         extent={{-10,-10},{10,10}},
         rotation=90)));
-
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation(r = {0, -1, 0})  annotation(
+    Placement(visible = true, transformation(origin = {162, -116}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force annotation(
+    Placement(visible = true, transformation(origin = {125, -116}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const[3](k = {500, 0, 0})  annotation(
+    Placement(visible = true, transformation(origin = {88, -116}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.MultiBody.Sensors.RelativePosition relativePosition1 annotation(
+    Placement(visible = true, transformation(origin = {230, -141}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Mechanics.MultiBody.Sensors.RelativePosition relativePosition2 annotation(
+    Placement(visible = true, transformation(origin = {230, -177}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Blocks.Interfaces.RealOutput horizontalPosTip annotation(
+    Placement(visible = true, transformation(origin = {295, -177}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {268, -87}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Routing.RealPassThrough realPassThrough annotation(
+    Placement(visible = true, transformation(origin = {265, -177}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Routing.RealPassThrough realPassThrough1 annotation(
+    Placement(visible = true, transformation(origin = {265, -141}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Routing.RealPassThrough realPassThrough2 annotation(
+    Placement(visible = true, transformation(origin = {265, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput horizontalPos annotation(
+    Placement(visible = true, transformation(origin = {294, -141}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {293, -143}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput verticalPos annotation(
+    Placement(visible = true, transformation(origin = {291, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {291, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(swingRevolute.frame_a,base. frame_b)              annotation (Line(
-      points={{-110,-110},{-110,-118}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(boom1LinkRight.frame_a, swingRevolute.frame_b)    annotation (Line(
-      points={{-33.5,-77},{-34,-77},{-34,-82},{-110,-82},{-110,-90}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(boom4LinkX.frame_a, boom4LinkY.frame_b)       annotation (Line(
-      points={{39,79},{61,79},{61,73},{60.5,73}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(cylArm.frame_a, boom3Link.frame_b)                  annotation (Line(
-      points={{-21,79},{-26,79},{-26,78},{-31,78}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(cylArm.frame_b, boom4LinkX.frame_b)                annotation (Line(
-      points={{-1,79},{4,79}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(boom2LinkRight.frame_b, cylBoomRight.frame_b)      annotation (Line(
-      points={{-32,2.5},{-32,-11},{-33,-11}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(boom1LinkRight.frame_b, cylBoomRight.frame_a)      annotation (Line(
-      points={{-33.5,-37},{-33,-37},{-33,-31}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(carriage.frame_a,swingRevolute. frame_b)
-                                              annotation (Line(
-      points={{-141.5,-49},{-141,-49},{-141,-82},{-110,-82},{-110,-90}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(cylBoomRight.flange_a, cylBoomRightBase)
-                                          annotation (Line(points={{-23,
-          -27},{-14,-27},{-14,-141}}, color={0,191,0}));
-  connect(cylBoomRight.flange_b, cylBoomRightRod)
-                                          annotation (Line(points={{-23,
-          -15},{6,-15},{6,-141}}, color={0,191,0}));
-  connect(cylArm.flange_b, cylArmRod)     annotation (Line(points={{-5,89},
-          {-5,139}}, color={0,191,0}));
-  connect(bCarriage.frame_a,carriage. frame_a) annotation (Line(
-      points={{-123,-49},{-141.5,-49}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(bBoom.frame_a,boom. frame_a) annotation (Line(
-      points={{-58,48},{-78,48},{-78,22},{-79,22}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(boom1LinkLeft.frame_a, swingRevolute.frame_b)
-                                          annotation (Line(
-      points={{-167.5,-37},{-167,-37},{-167,-82},{-110,-82},{-110,-90}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(cylBoomLeft.frame_a, boom1LinkLeft.frame_b)
-                                        annotation (Line(
-      points={{-167,31},{-167,3},{-167.5,3}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(boom2LinkLeft.frame_b, cylBoomLeft.frame_b)
-                                        annotation (Line(
-      points={{-159,75.5},{-159,75.75},{-167,75.75},{-167,51}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(cylBoomLeft.flange_b, cylBoomLeftRod)
-                                            annotation (Line(points={{
-          -177,47},{-200,47}}, color={0,191,0}));
-  connect(cylBoomLeft.flange_a, cylBoomLeftBase)
-                                            annotation (Line(points={{
-          -177,35},{-177,27},{-200,27}}, color={0,191,0}));
-  connect(bArm.frame_a, armLink.frame_a)
-                                     annotation (Line(
-      points={{60,4},{60,22},{86,22}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(armLink.frame_a, arm1Link.frame_a)
-                                     annotation (Line(
-      points={{86,22},{86,90},{91,90}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(jointRRR1.frame_a, arm2Link.frame_b)
-                                           annotation (Line(
-      points={{170,-55.5},{170,-55},{129,-55},{129,-54.5}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(cylBucket.frame_b, jointRRR1.frame_im)
-                                             annotation (Line(
-      points={{171,90},{171,91},{184.5,91},{184.5,-40}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(cylBucket.frame_a, arm1Link.frame_b)
-                                       annotation (Line(
-      points={{140,90},{126,90}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(arm2Link.frame_a, armLink.frame_a)
-                                     annotation (Line(
-      points={{86,-54.5},{86,22}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(bucketLink.frame_b, jointRRR1.frame_b)
-                                          annotation (Line(
-      points={{231,-7},{231,-54},{199,-54},{199,-55.5}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(bBucket.frame_a, bucketLink.frame_a)
-                                        annotation (Line(
-      points={{230,44},{230,22},{231,22}},
-      color={0,0,0},
-      thickness=0.5));
-  connect(cylBucket.flange_b, cylBucketRod)
-                                     annotation (Line(points={{164.8,105},
-          {164.8,128.25},{165,128.25},{165,139}}, color={0,191,0}));
-  connect(cylBucket.flange_a, cylBucketBase)
-                                     annotation (Line(points={{146.2,105},
-          {146.2,139.25},{145,139.25},{145,139}}, color={0,191,0}));
-  connect(boom.frame_b,armRevolute. frame_a)      annotation (Line(
-      points={{-20,22},{3,22}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(armRevolute.frame_b, boom4LinkY.frame_a)
-                                                 annotation (Line(
-      points={{23,22},{60,22},{60,33},{60.5,33}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(armRevolute.frame_b, armLink.frame_a)  annotation (Line(
-      points={{23,22},{86,22}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(armLink.frame_b, bucketRevolute.frame_a)
-                                                  annotation (Line(
-      points={{129,22},{159,22}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(bucketRevolute.frame_b, bucketLink.frame_a)
-                                                  annotation (Line(
-      points={{179,22},{205,22},{205,22},{231,22}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(base.frame_a, baseFrame)
-                                  annotation (Line(
-      points={{-110,-140},{-110,-136},{-72,-136}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(boomRevolute.frame_b,boom. frame_a)      annotation (Line(
-      points={{-113,22},{-79,22}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(boom2LinkLeft.frame_a, boomRevolute.frame_b)
-                                                   annotation (Line(
-      points={{-103,75.5},{-102,75.5},{-102,22},{-113,22}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(boom3Link.frame_a, boomRevolute.frame_b)
-                                                 annotation (Line(
-      points={{-78,78},{-78,22},{-113,22}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(boomRevolute.frame_a,carriage. frame_b)      annotation (Line(
-      points={{-133,22},{-141.5,22},{-141.5,3}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(boom2LinkRight.frame_a, boomRevolute.frame_b)
-                                                   annotation (Line(
-      points={{-77,2.5},{-77,22},{-113,22}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(cylArmBase, cylArm.flange_a)    annotation (Line(points={{-25,
-          139},{-25,89},{-17,89}}, color={0,127,0}));
-
-  connect(swingRevolute.axis, swingFlange) annotation (Line(points={{-120,
-          -100},{-177,-100},{-177,-123},{-201,-123}}, color={0,0,0}));
-
-  annotation (Diagram(coordinateSystem(
-        preserveAspectRatio=false,
-        extent={{-200,-200},{250,200}},
-        grid={1,1}), graphics={Text(
-          extent={{50,-90},{205,-125}},
-          lineColor={0,0,255},
-          lineThickness=0.5,
-          fillColor={215,215,215},
-          fillPattern=FillPattern.Solid,
-          textString=
-               "Mechanical model of complete excavator"), Rectangle(
-            extent={{-200,140},{250,-141}}, lineColor={0,0,255})}),
-    Icon(coordinateSystem(
-        preserveAspectRatio=false,
-        extent={{-200,-200},{250,200}},
-        grid={1,1}), graphics={
-        Rectangle(
-          extent={{-200,140},{250,-140}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Bitmap(extent={{-197,219},{248,-223}}, fileName=
-              "modelica://OpenHydraulics/Resources/Images/excavator.png"),
-        Line(
-          points={{-190,37},{-14,-1}},
-          color={0,127,0},
-          thickness=0.5),
-        Line(
-          points={{-15,129},{23,92}},
-          color={0,127,0},
-          thickness=0.5),
-        Line(
-          points={{155,129},{126,88}},
-          color={0,127,0},
-          thickness=0.5),
-        Line(
-          points={{-30,-10},{-4,-131}},
-          color={0,127,0},
-          thickness=0.5),
-        Ellipse(
-          extent={{-18,4},{-8,-6}},
-          lineColor={0,127,0},
-          lineThickness=0.5,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Ellipse(
-          extent={{18,97},{28,87}},
-          lineColor={0,127,0},
-          lineThickness=0.5,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Ellipse(
-          extent={{122,94},{132,84}},
-          lineColor={0,127,0},
-          lineThickness=0.5,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Ellipse(
-          extent={{-36,-3},{-26,-13}},
-          lineColor={0,127,0},
-          lineThickness=0.5,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Ellipse(
-          extent={{-55,-57},{-45,-67}},
-          lineColor={95,95,95},
-          lineThickness=0.5,
-          fillColor={95,95,95},
-          fillPattern=FillPattern.Solid),
-        Line(
-          points={{-200,-122},{-50,-60}},
-          color={95,95,95},
-          thickness=0.5),
-        Line(
-          points={{-72,-137},{-72,-127}},
-          color={95,95,95},
-          thickness=0.5)}));
+  connect(swingRevolute.frame_a, base.frame_b) annotation(
+    Line(points = {{-110, -110}, {-110, -118}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(boom1LinkRight.frame_a, swingRevolute.frame_b) annotation(
+    Line(points = {{-33.5, -77}, {-34, -77}, {-34, -82}, {-110, -82}, {-110, -90}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(boom4LinkX.frame_a, boom4LinkY.frame_b) annotation(
+    Line(points = {{39, 79}, {61, 79}, {61, 73}, {60.5, 73}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(cylArm.frame_a, boom3Link.frame_b) annotation(
+    Line(points = {{-21, 79}, {-26, 79}, {-26, 78}, {-31, 78}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(cylArm.frame_b, boom4LinkX.frame_b) annotation(
+    Line(points = {{-1, 79}, {4, 79}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(boom2LinkRight.frame_b, cylBoomRight.frame_b) annotation(
+    Line(points = {{-32, 2.5}, {-32, -11}, {-33, -11}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(boom1LinkRight.frame_b, cylBoomRight.frame_a) annotation(
+    Line(points = {{-33.5, -37}, {-33, -37}, {-33, -31}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(carriage.frame_a, swingRevolute.frame_b) annotation(
+    Line(points = {{-141.5, -49}, {-141, -49}, {-141, -82}, {-110, -82}, {-110, -90}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(cylBoomRight.flange_a, cylBoomRightBase) annotation(
+    Line(points = {{-23, -27}, {-14, -27}, {-14, -141}}, color = {0, 191, 0}));
+  connect(cylBoomRight.flange_b, cylBoomRightRod) annotation(
+    Line(points = {{-23, -15}, {6, -15}, {6, -141}}, color = {0, 191, 0}));
+  connect(cylArm.flange_b, cylArmRod) annotation(
+    Line(points = {{-5, 89}, {-5, 139}}, color = {0, 191, 0}));
+  connect(bCarriage.frame_a, carriage.frame_a) annotation(
+    Line(points = {{-123, -49}, {-141.5, -49}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(bBoom.frame_a, boom.frame_a) annotation(
+    Line(points = {{-58, 48}, {-78, 48}, {-78, 22}, {-79, 22}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(boom1LinkLeft.frame_a, swingRevolute.frame_b) annotation(
+    Line(points = {{-167.5, -37}, {-167, -37}, {-167, -82}, {-110, -82}, {-110, -90}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(cylBoomLeft.frame_a, boom1LinkLeft.frame_b) annotation(
+    Line(points = {{-167, 31}, {-167, 3}, {-167.5, 3}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(boom2LinkLeft.frame_b, cylBoomLeft.frame_b) annotation(
+    Line(points = {{-159, 75.5}, {-159, 75.75}, {-167, 75.75}, {-167, 51}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(cylBoomLeft.flange_b, cylBoomLeftRod) annotation(
+    Line(points = {{-177, 47}, {-200, 47}}, color = {0, 191, 0}));
+  connect(cylBoomLeft.flange_a, cylBoomLeftBase) annotation(
+    Line(points = {{-177, 35}, {-177, 27}, {-200, 27}}, color = {0, 191, 0}));
+  connect(bArm.frame_a, armLink.frame_a) annotation(
+    Line(points = {{60, 4}, {60, 22}, {86, 22}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(armLink.frame_a, arm1Link.frame_a) annotation(
+    Line(points = {{86, 22}, {86, 90}, {91, 90}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(jointRRR1.frame_a, arm2Link.frame_b) annotation(
+    Line(points = {{170, -55.5}, {170, -55}, {129, -55}, {129, -54.5}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(cylBucket.frame_b, jointRRR1.frame_im) annotation(
+    Line(points = {{171, 90}, {171, 91}, {184.5, 91}, {184.5, -40}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(cylBucket.frame_a, arm1Link.frame_b) annotation(
+    Line(points = {{140, 90}, {126, 90}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(arm2Link.frame_a, armLink.frame_a) annotation(
+    Line(points = {{86, -54.5}, {86, 22}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(bucketLink.frame_b, jointRRR1.frame_b) annotation(
+    Line(points = {{231, -7}, {231, -54}, {199, -54}, {199, -55.5}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(bBucket.frame_a, bucketLink.frame_a) annotation(
+    Line(points = {{230, 44}, {230, 22}, {231, 22}}, color = {0, 0, 0}, thickness = 0.5));
+  connect(cylBucket.flange_b, cylBucketRod) annotation(
+    Line(points = {{164.8, 105}, {164.8, 128.25}, {165, 128.25}, {165, 139}}, color = {0, 191, 0}));
+  connect(cylBucket.flange_a, cylBucketBase) annotation(
+    Line(points = {{146.2, 105}, {146.2, 139.25}, {145, 139.25}, {145, 139}}, color = {0, 191, 0}));
+  connect(boom.frame_b, armRevolute.frame_a) annotation(
+    Line(points = {{-20, 22}, {3, 22}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(armRevolute.frame_b, boom4LinkY.frame_a) annotation(
+    Line(points = {{23, 22}, {60, 22}, {60, 33}, {60.5, 33}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(armRevolute.frame_b, armLink.frame_a) annotation(
+    Line(points = {{23, 22}, {86, 22}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(armLink.frame_b, bucketRevolute.frame_a) annotation(
+    Line(points = {{129, 22}, {159, 22}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(bucketRevolute.frame_b, bucketLink.frame_a) annotation(
+    Line(points = {{179, 22}, {205, 22}, {205, 22}, {231, 22}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(base.frame_a, baseFrame) annotation(
+    Line(points = {{-110, -140}, {-110, -136}, {-72, -136}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(boomRevolute.frame_b, boom.frame_a) annotation(
+    Line(points = {{-113, 22}, {-79, 22}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(boom2LinkLeft.frame_a, boomRevolute.frame_b) annotation(
+    Line(points = {{-103, 75.5}, {-102, 75.5}, {-102, 22}, {-113, 22}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(boom3Link.frame_a, boomRevolute.frame_b) annotation(
+    Line(points = {{-78, 78}, {-78, 22}, {-113, 22}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(boomRevolute.frame_a, carriage.frame_b) annotation(
+    Line(points = {{-133, 22}, {-141.5, 22}, {-141.5, 3}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(boom2LinkRight.frame_a, boomRevolute.frame_b) annotation(
+    Line(points = {{-77, 2.5}, {-77, 22}, {-113, 22}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(cylArmBase, cylArm.flange_a) annotation(
+    Line(points = {{-25, 139}, {-25, 89}, {-17, 89}}, color = {0, 127, 0}));
+  connect(swingRevolute.axis, swingFlange) annotation(
+    Line(points = {{-120, -100}, {-177, -100}, {-177, -123}, {-201, -123}}, color = {0, 0, 0}));
+  connect(bucketLink.frame_a, fixedTranslation.frame_a) annotation(
+    Line(points = {{231, 22}, {208, 22}, {208, -116}, {172, -116}}));
+  connect(force.frame_b, fixedTranslation.frame_b) annotation(
+    Line(points = {{135, -116}, {152, -116}}));
+  connect(const.y, force.force) annotation(
+    Line(points = {{99, -116}, {113, -116}}, color = {0, 0, 127}));
+  connect(relativePosition2.frame_a, base.frame_a) annotation(
+    Line(points = {{230, -187}, {-110, -187}, {-110, -140}}));
+  connect(relativePosition1.frame_a, base.frame_a) annotation(
+    Line(points = {{230, -151}, {-110, -151}, {-110, -140}}));
+  connect(relativePosition2.frame_b, fixedTranslation.frame_b) annotation(
+    Line(points = {{230, -167}, {152, -167}, {152, -116}}, color = {95, 95, 95}));
+  connect(relativePosition1.frame_b, fixedTranslation.frame_a) annotation(
+    Line(points = {{230, -131}, {172, -131}, {172, -116}}));
+  connect(relativePosition2.r_rel[1], realPassThrough.u) annotation(
+    Line(points = {{241, -177}, {253, -177}}, color = {0, 0, 127}));
+  connect(realPassThrough.y, horizontalPosTip) annotation(
+    Line(points = {{276, -177}, {295, -177}}, color = {0, 0, 127}));
+  connect(relativePosition1.r_rel[1], realPassThrough1.u) annotation(
+    Line(points = {{241, -141}, {253, -141}}, color = {0, 0, 127}));
+  connect(relativePosition1.r_rel[2], realPassThrough2.u) annotation(
+    Line(points = {{241, -141}, {241, -100}, {253, -100}}, color = {0, 0, 127}));
+  connect(realPassThrough1.y, horizontalPos) annotation(
+    Line(points = {{276, -141}, {294, -141}}, color = {0, 0, 127}));
+  connect(realPassThrough2.y, verticalPos) annotation(
+    Line(points = {{276, -100}, {291, -100}}, color = {0, 0, 127}));
+  annotation(
+    Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-200, -200}, {250, 200}}, grid = {1, 1}), graphics = {Text(origin = {-29, 26}, lineColor = {0, 0, 255}, fillColor = {215, 215, 215}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{50, -90}, {205, -125}}, textString = "Mechanical model of complete excavator"), Rectangle(origin = {0.116894, 0.907312},lineColor = {0, 0, 255}, extent = {{-199.906, 199.482}, {249.883, -200.907}})}),
+    Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-200, -200}, {250, 200}}, grid = {1, 1}), graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-200, 140}, {250, -140}}), Bitmap(extent = {{-197, 219}, {248, -223}}, fileName = "modelica://OpenHydraulics/Resources/Images/excavator.png"), Line(points = {{-190, 37}, {-14, -1}}, color = {0, 127, 0}, thickness = 0.5), Line(points = {{-15, 129}, {23, 92}}, color = {0, 127, 0}, thickness = 0.5), Line(points = {{155, 129}, {126, 88}}, color = {0, 127, 0}, thickness = 0.5), Line(points = {{-30, -10}, {-4, -131}}, color = {0, 127, 0}, thickness = 0.5), Ellipse(lineColor = {0, 127, 0}, fillColor = {0, 127, 0}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{-18, 4}, {-8, -6}}, endAngle = 360), Ellipse(lineColor = {0, 127, 0}, fillColor = {0, 127, 0}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{18, 97}, {28, 87}}, endAngle = 360), Ellipse(lineColor = {0, 127, 0}, fillColor = {0, 127, 0}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{122, 94}, {132, 84}}, endAngle = 360), Ellipse(lineColor = {0, 127, 0}, fillColor = {0, 127, 0}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{-36, -3}, {-26, -13}}, endAngle = 360), Ellipse(lineColor = {95, 95, 95}, fillColor = {95, 95, 95}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{-55, -57}, {-45, -67}}, endAngle = 360), Line(points = {{-200, -122}, {-50, -60}}, color = {95, 95, 95}, thickness = 0.5), Line(points = {{-72, -137}, {-72, -127}}, color = {95, 95, 95}, thickness = 0.5)}));
 end MechanicsBody_noFriction;
