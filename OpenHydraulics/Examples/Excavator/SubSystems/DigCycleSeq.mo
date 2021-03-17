@@ -16,11 +16,11 @@ model DigCycleSeq
   parameter Real bucketAmplitude3 = -1 "Amplitude of bucket command";
   // the components
   Modelica.Blocks.Tables.CombiTable1D swingTimeTable(table = [0, 0; 1, 0; 13, 0; 14, swingAmplitude; 17, swingAmplitude; 18, 0; 20, 0]) annotation(
-    Placement(visible = true, transformation(origin = {-32, 118}, extent = {{10, -10}, {-10, 10}}, rotation = 180)));
+    Placement(visible = true, transformation(origin = {-32, 84}, extent = {{10, -10}, {-10, 10}}, rotation = 180)));
   Modelica.Blocks.Continuous.SecondOrder swingFilter(w = 2 * pi * bandwidth) annotation(
-    Placement(visible = true, transformation(extent = {{-2, 108}, {18, 128}}, rotation = 0)));
+    Placement(visible = true, transformation(extent = {{-2, 74}, {18, 94}}, rotation = 0)));
   Modelica.Blocks.Continuous.SecondOrder boomFilter(w = 2 * pi * bandwidth) annotation(
-    Placement(visible = true, transformation(extent = {{2, 72}, {22, 92}}, rotation = 0)));
+    Placement(visible = true, transformation(extent = {{2, 38}, {22, 58}}, rotation = 0)));
   Modelica.Blocks.Continuous.SecondOrder armFilter(w = 2 * pi * bandwidth) annotation(
     Placement(visible = true, transformation(extent = {{2, -84}, {22, -64}}, rotation = 0)));
   // auxiliary components
@@ -36,30 +36,30 @@ model DigCycleSeq
     Placement(visible = true, transformation(origin = {132, 60}, extent = {{10, -10}, {-10, 10}}, rotation = 180)));
   Modelica.Blocks.Tables.CombiTable1D bucketTimeTable(table = [0, 0; 1, 0; 2, bucketAmplitude1; 30, bucketAmplitude1; 31, 0; 35, 0]) annotation(
     Placement(visible = true, transformation(origin = {132, 34}, extent = {{10, -10}, {-10, 10}}, rotation = 180)));
-  Modelica.Blocks.Continuous.PID pid(Ti = 1, k = -1) annotation(
+  Modelica.Blocks.Continuous.PID pid(Ti = 0.1, k = -1) annotation(
     Placement(visible = true, transformation(origin = {-6, -128}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Add err_bucketAngle(k2 = -1) annotation(
     Placement(visible = true, transformation(origin = {-36, -128}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput horizontalPos annotation(
     Placement(visible = true, transformation(origin = {-159, 7}, extent = {{-13, -13}, {13, 13}}, rotation = 0), iconTransformation(origin = {-102, 58}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput horizontalPosTip annotation(
-    Placement(visible = true, transformation(origin = {-159, -33}, extent = {{-13, -13}, {13, 13}}, rotation = 0), iconTransformation(origin = {-98, 12}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-159, -131}, extent = {{-13, -13}, {13, 13}}, rotation = 0), iconTransformation(origin = {-98, 12}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput verticalPos annotation(
     Placement(visible = true, transformation(origin = {-159, -67}, extent = {{-13, -13}, {13, 13}}, rotation = 0), iconTransformation(origin = {-94, -44}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp(duration = 30, height = -5, offset = 9, startTime = 1) annotation(
     Placement(visible = true, transformation(origin = {-206, 54}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Add err_horizontalPos(k1 = -1, k2 = +1) annotation(
     Placement(visible = true, transformation(origin = {-154, 48}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Gain gain(k = 0.1) annotation(
+  Modelica.Blocks.Math.Gain gain(k = 0.2) annotation(
     Placement(visible = true, transformation(origin = {-81, -87}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = 0.01) annotation(
     Placement(visible = true, transformation(origin = {-81, -63}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
-  Modelica.Blocks.Math.Gain gain2(k = -0.1) annotation(
-    Placement(visible = true, transformation(origin = {-51, 63}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
+  Modelica.Blocks.Math.Gain gain2(k = -0.2) annotation(
+    Placement(visible = true, transformation(origin = {-51, 29}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain3(k = 0.005) annotation(
-    Placement(visible = true, transformation(origin = {-51, 89}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-51, 55}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
   Modelica.Blocks.Math.Add add annotation(
-    Placement(visible = true, transformation(origin = {-16, 82}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-16, 48}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Add add1 annotation(
     Placement(visible = true, transformation(origin = {-16, -74}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant arm_vertical_switch(k = 7)  annotation(
@@ -70,7 +70,7 @@ model DigCycleSeq
     Placement(visible = true, transformation(origin = {-24, -14}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Product product annotation(
     Placement(visible = true, transformation(origin = {-46, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Continuous.PID pid1(Ti = 1)  annotation(
+  Modelica.Blocks.Continuous.PID pid1(Ti = 0.1, k = 1)  annotation(
     Placement(visible = true, transformation(origin = {-122, 48}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 protected
   SI.Time t "Input to tables";
@@ -83,19 +83,19 @@ equation
   connect(multiplex.y, y1) annotation(
     Line(points = {{87.6, 0}, {98, -3.1606e-021}, {98, 1.77636e-015}, {110, 1.77636e-015}}, color = {0, 0, 127}));
   connect(swingTimeTable.y[1], swingFilter.u) annotation(
-    Line(points = {{-21, 118}, {-4, 118}}, color = {0, 0, 127}));
+    Line(points = {{-21, 84}, {-4, 84}}, color = {0, 0, 127}));
   connect(swingFilter.y, multiplex.u1[1]) annotation(
-    Line(points = {{19, 118}, {34, 118}, {34, 14.4}, {50.8, 14.4}}, color = {0, 0, 127}));
+    Line(points = {{19, 84}, {34, 84}, {34, 14.4}, {50.8, 14.4}}, color = {0, 0, 127}));
   connect(armFilter.y, multiplex.u3[1]) annotation(
     Line(points = {{23, -74}, {28, -74}, {28, -4.8}, {50.8, -4.8}}, color = {0, 0, 127}));
   connect(boomFilter.y, multiplex.u2[1]) annotation(
-    Line(points = {{23, 82}, {28, 82}, {28, 4.8}, {50.8, 4.8}}, color = {0, 0, 127}));
+    Line(points = {{23, 48}, {28, 48}, {28, 4.8}, {50.8, 4.8}}, color = {0, 0, 127}));
   connect(bucketFilter.y, multiplex.u4[1]) annotation(
     Line(points = {{35, -128}, {36, -128}, {36, -14.4}, {50.8, -14.4}}, color = {0, 0, 127}));
   connect(err_bucketAngle.y, pid.u) annotation(
     Line(points = {{-25, -128}, {-18, -128}}, color = {0, 0, 127}));
   connect(horizontalPosTip, err_bucketAngle.u2) annotation(
-    Line(points = {{-159, -33}, {-114, -33}, {-114, -134}, {-48, -134}}, color = {0, 0, 127}));
+    Line(points = {{-159, -131}, {-114, -131}, {-114, -134}, {-48, -134}}, color = {0, 0, 127}));
   connect(horizontalPos, err_bucketAngle.u1) annotation(
     Line(points = {{-159, 7}, {-110, 7}, {-110, -122}, {-48, -122}}, color = {0, 0, 127}));
   connect(pid.y, bucketFilter.u) annotation(
@@ -103,15 +103,15 @@ equation
   connect(ramp.y, err_horizontalPos.u1) annotation(
     Line(points = {{-195, 54}, {-166, 54}}, color = {0, 0, 127}));
   connect(verticalPos, gain2.u) annotation(
-    Line(points = {{-159, -67}, {-102, -67}, {-102, 63}, {-59, 63}}, color = {0, 0, 127}));
+    Line(points = {{-159, -67}, {-102, -67}, {-102, 29}, {-59, 29}}, color = {0, 0, 127}));
   connect(verticalPos, gain.u) annotation(
     Line(points = {{-159, -67}, {-123, -67}, {-123, -87}, {-89, -87}}, color = {0, 0, 127}));
   connect(add.u1, gain3.y) annotation(
-    Line(points = {{-28, 88}, {-43, 88}, {-43, 89}}, color = {0, 0, 127}));
+    Line(points = {{-28, 54}, {-43, 54}, {-43, 55}}, color = {0, 0, 127}));
   connect(add.u2, gain2.y) annotation(
-    Line(points = {{-28, 76}, {-43, 76}, {-43, 63}}, color = {0, 0, 127}));
+    Line(points = {{-28, 42}, {-43, 42}, {-43, 29}}, color = {0, 0, 127}));
   connect(add.y, boomFilter.u) annotation(
-    Line(points = {{-5, 82}, {-1, 82}}, color = {0, 0, 127}));
+    Line(points = {{-5, 48}, {-1, 48}}, color = {0, 0, 127}));
   connect(gain1.y, add1.u1) annotation(
     Line(points = {{-73.3, -63}, {-28, -63}, {-28, -68}}, color = {0, 0, 127}));
   connect(horizontalPos, add2.u1) annotation(
@@ -133,7 +133,7 @@ equation
   connect(err_horizontalPos.y, pid1.u) annotation(
     Line(points = {{-142, 48}, {-134, 48}}, color = {0, 0, 127}));
   connect(pid1.y, gain3.u) annotation(
-    Line(points = {{-110, 48}, {-108, 48}, {-108, 90}, {-60, 90}}, color = {0, 0, 127}));
+    Line(points = {{-110, 48}, {-108, 48}, {-108, 55}, {-59, 55}}, color = {0, 0, 127}));
   connect(pid1.y, gain1.u) annotation(
     Line(points = {{-110, 48}, {-106, 48}, {-106, -62}, {-90, -62}}, color = {0, 0, 127}));
   annotation(
